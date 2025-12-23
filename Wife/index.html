@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Romantic Christmas Card</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --red: #c62828;
+      --green: #1b5e20;
+      --gold: #f7d36b;
+      --pink: #ffc1cc;
+      --bg: radial-gradient(circle at 20% 20%, rgba(255, 193, 204, 0.25), transparent 25%),
+            radial-gradient(circle at 80% 0%, rgba(247, 211, 107, 0.25), transparent 20%),
+            linear-gradient(135deg, #1a1a2e, #511730 50%, #0f2027);
+      --glass: rgba(255, 255, 255, 0.12);
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Montserrat", system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: #fdfdfd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      overflow-x: hidden;
+    }
+    .snow, .snow::after, .snow::before {
+      position: fixed;
+      top: -10px;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background-image: radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,0.9), rgba(255,255,255,0)),
+                        radial-gradient(3px 3px at 80px 120px, rgba(255,255,255,0.8), rgba(255,255,255,0)),
+                        radial-gradient(2px 2px at 200px 80px, rgba(255,255,255,0.9), rgba(255,255,255,0)),
+                        radial-gradient(3px 3px at 320px 200px, rgba(255,255,255,0.8), rgba(255,255,255,0));
+      animation: snow 18s linear infinite;
+      z-index: 0;
+      opacity: 0.6;
+    }
+    .snow::after {
+      content: "";
+      opacity: 0.6;
+      animation-duration: 28s;
+      animation-direction: reverse;
+      filter: blur(1px);
+    }
+    .snow::before {
+      content: "";
+      opacity: 0.5;
+      animation-duration: 22s;
+      filter: blur(2px);
+    }
+    @keyframes snow {
+      to { transform: translateY(100vh); }
+    }
+    .card {
+      position: relative;
+      width: min(900px, 95vw);
+      background: linear-gradient(145deg, rgba(255,255,255,0.09), rgba(255,255,255,0.04));
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: var(--shadow);
+      z-index: 1;
+      overflow: hidden;
+    }
+    .ribbon {
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      pointer-events: none;
+      background: radial-gradient(circle at 10% 10%, rgba(255,255,255,0.15), transparent 25%),
+                  radial-gradient(circle at 90% 20%, rgba(255,255,255,0.12), transparent 20%);
+    }
+    h1 {
+      font-family: "Great Vibes", cursive;
+      font-size: clamp(40px, 6vw, 68px);
+      margin: 0;
+      color: var(--gold);
+      letter-spacing: 1px;
+    }
+    h2 { margin: 12px 0 24px; font-weight: 500; color: #fefefe; }
+    button {
+      background: linear-gradient(135deg, var(--red), #ff4d6d);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 14px 24px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease;
+    }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    button:hover:not(:disabled) { transform: translateY(-1px) scale(1.01); box-shadow: 0 16px 32px rgba(0,0,0,0.28); }
+    .cover, .content { position: relative; }
+    .cover { text-align: center; padding: 16px; }
+    .tagline { color: #f9e9ef; font-size: 18px; margin-bottom: 28px; }
+    .heart-line { font-size: 24px; color: #ffc1cc; margin: 12px 0; }
+    .content { display: none; gap: 18px; }
+    .header-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: var(--glass);
+    }
+    .progress { font-weight: 700; color: var(--gold); }
+    .controls { display: flex; align-items: center; gap: 10px; }
+    .pill {
+      padding: 8px 14px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.08);
+      font-size: 13px;
+    }
+    .panel {
+      margin-top: 12px;
+      padding: 18px;
+      border-radius: 16px;
+      background: rgba(0,0,0,0.25);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+      animation: fade 0.4s ease;
+    }
+    @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    .question { font-size: 20px; margin-bottom: 10px; font-weight: 600; }
+    .instructions { color: #f3dfe8; font-size: 14px; margin-bottom: 14px; }
+    .input-area { display: grid; gap: 12px; margin: 10px 0; }
+    input[type="text"] {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      font-size: 15px;
+      outline: none;
+    }
+    .options { display: grid; gap: 8px; }
+    .option-btn {
+      width: 100%;
+      text-align: left;
+      border-radius: 12px;
+      padding: 12px 14px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      transition: transform 0.15s ease, background 0.2s ease;
+    }
+    .option-btn:hover { background: rgba(255,255,255,0.14); transform: translateY(-1px); }
+    .feedback { min-height: 22px; font-weight: 700; }
+    .ok { color: #9dfbc7; }
+    .err { color: #ffc1cc; }
+    .message-panel {
+      margin-top: 10px;
+      padding: 16px;
+      border-radius: 14px;
+      background: linear-gradient(145deg, rgba(255,193,204,0.2), rgba(247,211,107,0.15));
+      color: #fff8f8;
+      display: none;
+    }
+    .message-panel.show { display: block; animation: fade 0.4s ease; }
+    .message-text { font-family: "Great Vibes", cursive; font-size: 30px; margin: 0 0 8px; color: var(--gold); }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+    .ghost {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.4);
+      color: #fff;
+      box-shadow: none;
+    }
+    .music-toggle { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+    .badge { display: inline-block; padding: 6px 10px; border-radius: 10px; background: rgba(255,255,255,0.08); font-size: 12px; }
+    .footer-note { text-align: center; color: #f5d4da; margin-top: 12px; font-size: 13px; }
+    .confetti-piece {
+      position: fixed;
+      width: 10px;
+      height: 16px;
+      opacity: 0.9;
+      top: -20px;
+      left: 50%;
+      border-radius: 3px;
+      animation: fall 1.6s linear forwards;
+      pointer-events: none;
+      z-index: 99;
+    }
+    @keyframes fall {
+      to { transform: translate3d(var(--x), 110vh, 0) rotateZ(360deg); opacity: 0; }
+    }
+    @media (max-width: 640px) {
+      .card { padding: 22px; }
+      .header-row { flex-direction: column; align-items: flex-start; }
+      .actions { width: 100%; }
+      .option-btn { font-size: 14px; }
+    }
+    .final-letter, .gallery {
+      display: none;
+      position: relative;
+      width: min(900px, 95vw);
+      margin: 0 auto;
+      background: linear-gradient(145deg, rgba(255,255,255,0.09), rgba(255,255,255,0.04));
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: var(--shadow);
+      z-index: 1;
+    }
+    .final-text {
+      font-family: "Montserrat", sans-serif;
+      line-height: 1.7;
+      font-size: 17px;
+      color: #fff8f8;
+      margin-bottom: 22px;
+      white-space: pre-line;
+    }
+    .gallery-title { font-size: 26px; font-weight: 700; color: var(--gold); margin: 0 0 12px; }
+    .gallery-note { color: #f3dfe8; margin: 0 0 18px; }
+    .gallery-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      align-items: center;
+      overflow-y: auto;
+      max-height: 80vh;
+      padding: 6px;
+      scroll-behavior: smooth;
+    }
+    .gallery-grid img {
+      display: block;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.28);
+      max-width: min(95vw, 520px);
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="snow"></div>
+  <div class="card">
+    <div class="ribbon"></div>
+    <section class="cover" id="cover">
+      <h1>Our Christmas Story</h1>
+      <p class="tagline">A little trail of puzzles hiding five warm love notes for you.</p>
+      <div class="heart-line">❄️ ❤️ ✨</div>
+      <button id="openCard">Open My Christmas Card</button>
+      <p class="footer-note">Solve each page to unwrap every message. No skipping allowed.</p>
+    </section>
+
+    <section class="content" id="content">
+      <div class="header-row">
+        <div>
+          <div class="progress" id="progressText">Page 1 of 5</div>
+          <div class="pill" id="statusText">Progress saved on this device</div>
+        </div>
+        <div class="controls">
+          <button class="ghost" id="restartBtn">Restart</button>
+          <label class="music-toggle ghost" for="musicToggle">
+            <input type="checkbox" id="musicToggle" style="accent-color:#ffc1cc;" />
+            <span>Soft Christmas music</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="panel" id="puzzlePanel">
+        <div class="question" id="puzzleQuestion"></div>
+        <div class="instructions" id="puzzleInstruction"></div>
+        <div class="input-area" id="inputArea"></div>
+        <div class="feedback" id="feedback"></div>
+        <button id="submitAnswer">Check Answer</button>
+      </div>
+
+      <div class="message-panel" id="messagePanel">
+        <p class="message-text" id="messageText"></p>
+        <div class="actions">
+          <button id="nextBtn">Next Page</button>
+          <button class="ghost" id="reshuffleBtn">Try a different puzzle</button>
+          <button id="finalBtn" style="display:none;">Open Final Letter</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="final-letter" id="finalLetter">
+    <div class="ribbon"></div>
+    <h1 style="margin-bottom:16px;">A Letter For You</h1>
+    <p class="final-text" id="finalText"></p>
+    <button id="toGalleryBtn">Next</button>
+  </section>
+
+  <section class="gallery" id="gallery">
+    <div class="ribbon"></div>
+    <div class="header-row" style="margin-bottom:14px;">
+      <div>
+        <div class="gallery-title">Our Frames (Bold natin)</div>
+        <p class="gallery-note">I love you so much, alligator.</p>
+      </div>
+      <div class="pill">Sana masakal na kita.</div>
+    </div>
+    <div class="gallery-grid" id="galleryGrid"></div>
+  </section>
+
+  <audio id="bgMusic" loop preload="none">
+    <source src="https://cdn.pixabay.com/download/audio/2023/11/21/audio_4b2db1a6a7.mp3?filename=christmas-ambient-133364.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const totalPages = 5;
+    const messages = [
+      "Christmas feels warmer and brighter because I get to share it with you.",
+      "You are my favorite gift, not just this Christmas, but every day.",
+      "Holding you feels like coming home under a sky of twinkling lights.",
+      "You are the love letter hidden inside every carol I hum.",
+      "Thank you for making even the coldest days feel like a joyful celebration for us."
+    ];
+
+    const finalLetterText = `As this Christmas season wraps us in its warmth, I want you to know how deeply grateful I am for you. Even in our current situation, in this quiet moment of silence between us, my choice remains the same, I will still choose you, no matter what happens. My heart belongs to you and only you, always. You make ordinary days feel meaningful and even the hardest moments easier just by existing in my life. Please take care of yourself, cherish who you are, and live each moment to the fullest, because you deserve a life filled with warmth, love, and happiness. This card may end here, but my feelings don’t, they stay with you through every season, every challenge, and every day.`;
+
+    // Scramble pool only (all puzzles use these words).
+    const scrambleWords = ["LOVE", "NOEL", "SNOW", "HEART", "MERRY", "HUG", "LIGHT", "BELLS", "COZY", "SPARK"];
+
+    // Replace these file names with your local copies of the provided photos.
+    // Put the image files in the same folder as this HTML or adjust paths accordingly.
+    const galleryImages = [
+      "photo-01.jpeg",
+      "photo-02.jpeg",
+      "photo-03.jpeg",
+      "photo-04.jpeg",
+      "photo-05.jpeg",
+      "photo-06.jpeg",
+      "photo-07.jpeg",
+      "photo-08.jpeg",
+      "photo-09.jpeg",
+      "photo-10.jpeg",
+      "photo-11.jpeg",
+      "photo-12.jpeg",
+      "photo-13.jpeg"
+    ];
+
+    const el = (id) => document.getElementById(id);
+    const card = document.querySelector(".card");
+    const progressText = el("progressText");
+    const statusText = el("statusText");
+    const puzzleQuestion = el("puzzleQuestion");
+    const puzzleInstruction = el("puzzleInstruction");
+    const inputArea = el("inputArea");
+    const feedback = el("feedback");
+    const messagePanel = el("messagePanel");
+    const messageText = el("messageText");
+    const submitBtn = el("submitAnswer");
+    const nextBtn = el("nextBtn");
+    const finalBtn = el("finalBtn");
+    const reshuffleBtn = el("reshuffleBtn");
+    const cover = el("cover");
+    const content = el("content");
+    const finalLetter = el("finalLetter");
+    const finalTextEl = el("finalText");
+    const toGalleryBtn = el("toGalleryBtn");
+    const gallery = el("gallery");
+    const galleryGrid = el("galleryGrid");
+    const musicToggle = el("musicToggle");
+    const bgMusic = el("bgMusic");
+
+    const storageKey = "romanticXmasCardProgress";
+    let currentPage = 1;
+    let completedPages = 0;
+    let currentPuzzle = null;
+    let solved = false;
+    let usedWords = [];
+    let confettiInterval = null;
+
+    function loadProgress() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(storageKey));
+        if (saved && saved.completedPages) {
+          completedPages = Math.min(saved.completedPages, totalPages);
+          currentPage = Math.min(completedPages + 1, totalPages);
+        }
+      } catch (_) { /* ignore parse errors */ }
+    }
+
+    function saveProgress() {
+      localStorage.setItem(storageKey, JSON.stringify({ completedPages }));
+      statusText.textContent = "Progress saved on this device";
+    }
+
+    function shuffleWord(word) {
+      return word.split("").sort(() => Math.random() - 0.5).join("");
+    }
+
+    function pickRandom(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function buildPuzzle() {
+      // Always a scramble puzzle. Keep a short memory of used words to reduce repeats.
+      const available = scrambleWords.filter((w) => !usedWords.includes(w));
+      const base = available.length ? pickRandom(available) : pickRandom(scrambleWords);
+      usedWords.push(base);
+      if (usedWords.length > 4) usedWords = usedWords.slice(-3);
+      const scrambled = shuffleWord(base);
+      return {
+        type: "scramble",
+        question: `Unscramble this Christmas love word: ${scrambled}`,
+        instruction: "Type the unscrambled word (always just one simple word).",
+        check: (val) => val.trim().toLowerCase() === base.toLowerCase(),
+        input: { kind: "text", placeholder: "Your answer..." },
+        targetWord: base
+      };
+    }
+
+    function renderPuzzle() {
+      currentPuzzle = buildPuzzle();
+      solved = false;
+      messagePanel.classList.remove("show");
+      messageText.textContent = "";
+      feedback.textContent = "";
+      finalBtn.style.display = "none";
+      nextBtn.style.display = "inline-flex";
+      nextBtn.disabled = true;
+      submitBtn.disabled = false;
+      puzzleQuestion.textContent = currentPuzzle.question;
+      puzzleInstruction.textContent = currentPuzzle.instruction;
+      inputArea.innerHTML = "";
+      const input = document.createElement("input");
+      input.type = "text";
+      input.placeholder = currentPuzzle.input.placeholder;
+      input.id = "answerInput";
+      input.autocomplete = "off";
+      inputArea.appendChild(input);
+      input.addEventListener("input", () => {
+        // Always check the user's input while typing for quick feedback.
+        const val = input.value || "";
+        if (currentPuzzle.check(val)) {
+          showFeedback(true, "Looks right — press check to unlock!");
+        } else {
+          feedback.textContent = "";
+        }
+      });
+    }
+
+    function getUserAnswer() {
+      return (document.getElementById("answerInput")?.value || "").trim();
+    }
+
+    function showFeedback(ok, message) {
+      feedback.textContent = message;
+      feedback.className = `feedback ${ok ? "ok" : "err"}`;
+    }
+
+    function revealMessage() {
+      solved = true;
+      messageText.textContent = messages[currentPage - 1];
+      messagePanel.classList.add("show");
+      nextBtn.disabled = false;
+      if (currentPage === totalPages) {
+        nextBtn.style.display = "none";
+        finalBtn.style.display = "inline-flex";
+      } else {
+        nextBtn.style.display = "inline-flex";
+        finalBtn.style.display = "none";
+      }
+      submitBtn.disabled = true;
+      spawnConfetti();
+      completedPages = Math.max(completedPages, currentPage);
+      saveProgress();
+    }
+
+    function handleSubmit() {
+      if (solved) return;
+      const answer = getUserAnswer();
+      if (!answer) {
+        showFeedback(false, "Take a guess — I believe in you!");
+        return;
+      }
+      const ok = currentPuzzle.check(answer);
+      if (ok) {
+        showFeedback(true, "Perfect! Love unlocked.");
+        revealMessage();
+      } else {
+        showFeedback(false, "Not quite — try again, no rush.");
+      }
+    }
+
+    function updateProgressText() {
+      progressText.textContent = `Page ${currentPage} of ${totalPages}`;
+      statusText.textContent = completedPages ? `Completed ${completedPages} / ${totalPages}` : "Progress saved on this device";
+    }
+
+    function goToPage(page) {
+      currentPage = page;
+      updateProgressText();
+      renderPuzzle();
+    }
+
+    function nextPage() {
+      if (!solved) return;
+      if (currentPage < totalPages) {
+        currentPage += 1;
+        goToPage(currentPage);
+      }
+    }
+
+    function restart() {
+      stopConfetti();
+      gallery.style.display = "none";
+      finalLetter.style.display = "none";
+      if (card) card.style.display = "block";
+      content.style.display = "flex";
+      cover.style.display = "none";
+      completedPages = 0;
+      currentPage = 1;
+      saveProgress();
+      nextBtn.textContent = "Next Page";
+      nextBtn.onclick = nextPage;
+      goToPage(1);
+    }
+
+    function spawnConfetti() {
+      const colors = ["#ffc1cc", "#f7d36b", "#ffffff", "#c62828", "#7ad3a4"];
+      const count = 90;
+      for (let i = 0; i < count; i++) {
+        const piece = document.createElement("div");
+        piece.className = "confetti-piece";
+        piece.style.background = pickRandom(colors);
+        piece.style.left = `${Math.random() * 100}%`;
+        piece.style.width = `${6 + Math.random() * 6}px`;
+        piece.style.height = `${10 + Math.random() * 10}px`;
+        piece.style.setProperty("--x", `${(Math.random() - 0.5) * 200}px`);
+        piece.style.animationDuration = `${1 + Math.random() * 1.6}s`;
+        document.body.appendChild(piece);
+        setTimeout(() => piece.remove(), 2600);
+      }
+    }
+
+    function startInfiniteConfetti() {
+      stopConfetti();
+      spawnConfetti();
+      confettiInterval = setInterval(spawnConfetti, 450);
+    }
+
+    function stopConfetti() {
+      if (confettiInterval) {
+        clearInterval(confettiInterval);
+        confettiInterval = null;
+      }
+    }
+
+    function toggleMusic(e) {
+      if (e.target.checked) {
+        bgMusic.volume = 0.28;
+        bgMusic.play().catch(() => {
+          statusText.textContent = "Click play to allow music.";
+        });
+      } else {
+        bgMusic.pause();
+      }
+    }
+
+    function init() {
+      loadProgress();
+      updateProgressText();
+      renderPuzzle();
+      finalLetter.style.display = "none";
+      gallery.style.display = "none";
+      if (card) card.style.display = "block";
+      stopConfetti();
+    }
+
+    function goToFinalLetter() {
+      if (card) card.style.display = "none";
+      content.style.display = "none";
+      finalLetter.style.display = "block";
+      gallery.style.display = "none";
+      finalTextEl.textContent = finalLetterText;
+      stopConfetti();
+    }
+
+    function renderGallery() {
+      galleryGrid.innerHTML = "";
+      galleryImages.forEach((url) => {
+        const img = document.createElement("img");
+        img.src = url;
+        img.alt = "Us";
+        galleryGrid.appendChild(img);
+      });
+    }
+
+    function showGallery() {
+      finalLetter.style.display = "none";
+      gallery.style.display = "block";
+      renderGallery();
+      startInfiniteConfetti();
+    }
+
+    document.getElementById("openCard").addEventListener("click", () => {
+      if (card) card.style.display = "block";
+      cover.style.display = "none";
+      content.style.display = "flex";
+      content.style.flexDirection = "column";
+      init();
+    });
+    submitBtn.addEventListener("click", handleSubmit);
+    reshuffleBtn.addEventListener("click", () => {
+      if (solved) return;
+      renderPuzzle();
+      showFeedback(false, "New puzzle — you’ve got this!");
+    });
+    nextBtn.addEventListener("click", nextPage);
+    finalBtn.addEventListener("click", goToFinalLetter);
+    toGalleryBtn.addEventListener("click", showGallery);
+    musicToggle.addEventListener("change", toggleMusic);
+    el("restartBtn").addEventListener("click", restart);
+    window.addEventListener("keydown", (e) => { if (e.key === "Enter" && content.style.display === "flex") handleSubmit(); });
+  </script>
+</body>
+</html>
+
+
+
